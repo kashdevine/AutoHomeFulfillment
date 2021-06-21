@@ -19,7 +19,7 @@ namespace AutoHomeFulfillment.Models
         public IWebElement tablesSelection => _driver.FindElement(By.Id("bsr-table-select"));
 
         public readonly string firstImpressionDomain = "idx-firstimpression.homewithidxbroker.com";
-        public readonly string firstImpressionSearchDomain = "idx-firstimpression.idxbroker.com";
+        public readonly string firstImpressionIDXDomain = "idx-firstimpression.idxbroker.com";
 
         public WPSearchAndReplace(IWebDriver driver)
         {

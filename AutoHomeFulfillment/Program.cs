@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading;
 using AutoHomeFulfillment.Models;
 using AutoHomeFulfillment.Services;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-
 
 namespace AutoHomeFulfillment
 {
@@ -11,7 +11,7 @@ namespace AutoHomeFulfillment
     {
         static void Main(string[] args)
         {
-            Console.Write("What is the client's domain?\n");
+            Console.WriteLine("What is the client's HOME subdomain?");
 
             string clientDomain = Console.ReadLine();
 
@@ -39,23 +39,83 @@ namespace AutoHomeFulfillment
             }
 
 
-            //Carry out Search and Replace Methods
+            //Carry out Search and Replace Methods Twice Each
+            //Goes to the each and replace page
             searchAndReplace.goToPage(searchReplaceModel, clientDomain);
+
+
+            //This will do the search and replace for the domains
+            Console.WriteLine("Performing Search and replace...");
+            searchAndReplaceDomains(searchAndReplace, searchReplaceModel, clientDomain);
+
+            //Uncomment Below after creating selectTheme method
+            //searchAndReplace.searchAndReplaceDomains(searchAndReplace, searchReplaceModel,clientDomain);
+
+            //Wait 30 seconds
+            int sleeptime = 30 * 1000;
+            Thread.Sleep(sleeptime);
+
+
+            Console.WriteLine("Performing Search and replace again....");
+
+            searchAndReplace.searchAndReplaceSecondTime(searchAndReplace, searchReplaceModel);
+
+
+
+            // This will carry out the search and replace for the IDX Search Domains
+            searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, searchReplaceModel.firstImpressionIDXDomain);
+            searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.selectAllTables(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+
+
+            //driver.Quit();
+        }
+
+        private static void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain)
+        {
+            // Currently using the First Impression information to load information in the search and replace
+            // I will have refactor to allow the theme information to be optional
+
+            //Call selectThemeMethod
             searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, searchReplaceModel.firstImpressionDomain);
             searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
             searchAndReplace.checkCaseSensitive(searchReplaceModel);
             // Commented out for now to not break my demo account
             //searchAndReplace.uncheckDryRun(searchReplaceModel);
-
-            //TODO: select all of the tables
-
+            searchAndReplace.selectAllTables(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
 
-
-            
-
-
-            //driver.Quit();
         }
+
+        //Create selectTheme method
+        private static void selectTheme(int themeId)
+        {
+            //TODO: Implement switch statement for themes
+        }
+
+
+        private static void verifyThemeId(string input)
+        {
+            int themeId;
+
+            try
+            {
+                int inputInt = Int32.Parse(input);
+                themeId = inputInt;
+                selectTheme(themeId);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine($"{input} was not a valid integer. Please try again.");
+
+            }
+            
+        }
+
+
     }
 }

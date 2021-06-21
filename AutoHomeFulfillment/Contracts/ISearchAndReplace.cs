@@ -12,9 +12,12 @@ namespace AutoHomeFulfillment.Contracts
         void goToPage(WPSearchAndReplace searchAndReplacePage, string mainDomainName);
         void fillSearchFieldWithDomain(WPSearchAndReplace searchAndReplacePage, string themeDomain);
         void fillReplaceFieldWithDomain(WPSearchAndReplace searchAndReplacePage, string clientDomain);
+        void fillSearchFieldWithIDXDomain(WPSearchAndReplace searchAndReplacePage, string themeDomain);
+        void fillReplaceFieldWithClientIDXDomain(WPSearchAndReplace searchAndReplacePage, string clientIDXDomain);
         void checkCaseSensitive(WPSearchAndReplace searchAndReplacePage);
         void uncheckDryRun(WPSearchAndReplace searchAndReplacePage);
         void searchAndReplace(WPSearchAndReplace searchAndReplacePage);
-        void selectAlltables(WPSearchAndReplace searchAndReplacePage);
+        void selectAllTables(WPSearchAndReplace searchAndReplacePage);
+        
     }
 }

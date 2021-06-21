@@ -22,7 +22,14 @@ namespace AutoHomeFulfillment.Services
 
         public void checkCaseSensitive(WPSearchAndReplace searchAndReplacePage)
         {
-            searchAndReplacePage.caseInsensitiveCheckBox.Click();
+                searchAndReplacePage.caseInsensitiveCheckBox.Click();
+        }
+
+        public void fillReplaceFieldWithClientIDXDomain(WPSearchAndReplace searchAndReplacePage, string clientIDXDomain)
+        {
+            string fullDomain = clientIDXDomain + ".idxbroker.com";
+            searchAndReplacePage.replaceField.Clear();
+            searchAndReplacePage.replaceField.SendKeys(fullDomain);
         }
 
         public void fillReplaceFieldWithDomain(WPSearchAndReplace searchAndReplacePage, string clientDomain)
@@ -39,6 +46,12 @@ namespace AutoHomeFulfillment.Services
 
         }
 
+        public void fillSearchFieldWithIDXDomain(WPSearchAndReplace searchAndReplacePage, string themeIDXDomain)
+        {
+            searchAndReplacePage.searchField.Clear();
+            searchAndReplacePage.searchField.SendKeys(themeIDXDomain);
+        }
+
         public void goToPage(WPSearchAndReplace searchAndReplacePage, string mainDomainName)
         {
             string secureProtocol = "https://";
@@ -52,7 +65,7 @@ namespace AutoHomeFulfillment.Services
             searchAndReplacePage.runButton.Click();
         }
 
-        public void selectAlltables(WPSearchAndReplace searchAndReplacePage)
+        public void selectAllTables(WPSearchAndReplace searchAndReplacePage)
         {
             SelectElement tableselection = new SelectElement(searchAndReplacePage.tablesSelection);
 
@@ -66,6 +79,31 @@ namespace AutoHomeFulfillment.Services
         public void uncheckDryRun(WPSearchAndReplace searchAndReplacePage)
         {
             searchAndReplacePage.dryRunCheckBox.Click();
+        }
+
+
+        public void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain)
+        {
+            // Currently using the First Impression information to load information in the search and replace
+            // I will have refactor to allow the theme information to be optional
+
+            //Call selectThemeMethod
+            searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, searchReplaceModel.firstImpressionDomain);
+            searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
+            searchAndReplace.checkCaseSensitive(searchReplaceModel);
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.selectAllTables(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+
+        }
+
+        public void searchAndReplaceSecondTime(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel)
+        {
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+
         }
     }
 }
