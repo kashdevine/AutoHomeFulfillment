@@ -11,6 +11,9 @@ namespace AutoHomeFulfillment
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("What is the password for IDXHome?");
+            string homepassword = Console.ReadLine();
+
             Console.WriteLine("What is the client's HOME subdomain?");
 
             string clientDomain = Console.ReadLine();
@@ -29,7 +32,7 @@ namespace AutoHomeFulfillment
 
             //Login Page Section
             login.GotoLoginPage(wpLogin, clientDomain);
-            login.Login(wpLogin, "idxhome", "5qaHTYtcbPoUDKyRVvfrpKv9");
+            login.Login(wpLogin, "idxhome", homepassword);
 
 
             // Check for the email confirmation page and if it comes up then click confirm
