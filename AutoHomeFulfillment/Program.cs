@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using AutoHomeFulfillment.Models;
 using AutoHomeFulfillment.Services;
@@ -17,6 +18,11 @@ namespace AutoHomeFulfillment
             Console.WriteLine("What is the client's HOME subdomain?");
 
             string clientDomain = Console.ReadLine();
+
+            Console.WriteLine("Select the clients theme by typing the number");
+            displayThemeIndecies();
+
+            string clientThemeId = Console.ReadLine();
 
             IWebDriver driver = new ChromeDriver();
 
@@ -48,42 +54,63 @@ namespace AutoHomeFulfillment
 
 
             //This will do the search and replace for the domains
-            Console.WriteLine("Performing Search and replace...");
-            searchAndReplaceDomains(searchAndReplace, searchReplaceModel, clientDomain);
+            Console.WriteLine("Performing Search and replace for the domains...");
+            searchAndReplaceDomains(searchAndReplace, searchReplaceModel, clientDomain, clientThemeId);
 
             //Uncomment Below after creating selectTheme method
-            //searchAndReplace.searchAndReplaceDomains(searchAndReplace, searchReplaceModel,clientDomain);
+            //searchAndReplace.searchAndReplaceDomains(searchAndReplace, searchReplaceModel, clientDomain, clientThemeId);
 
             //Wait 30 seconds
-            int sleeptime = 30 * 1000;
-            Thread.Sleep(sleeptime);
+            int domainSleeptime = 30 * 1000;
+            Thread.Sleep(domainSleeptime);
 
 
-            Console.WriteLine("Performing Search and replace again....");
+            Console.WriteLine("Performing Search and replace for the domains again....");
 
             searchAndReplace.searchAndReplaceSecondTime(searchAndReplace, searchReplaceModel);
 
 
+            //Wait 30 seconds again
+            Thread.Sleep(domainSleeptime);
 
-            // This will carry out the search and replace for the IDX Search Domains
-            searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, searchReplaceModel.firstImpressionIDXDomain);
-            searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
-            // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
-            searchAndReplace.selectAllTables(searchReplaceModel);
-            searchAndReplace.searchAndReplace(searchReplaceModel);
+
+
+            Console.WriteLine("Performing Search and replace for the IDX domains...");
+
+            SearchAndReplaceIDXDomains(clientDomain, clientThemeId, searchReplaceModel, searchAndReplace);
+
+            int idxDomainSleeptime = 32 * 1000;
+            Thread.Sleep(idxDomainSleeptime);
+
+
+            Console.WriteLine("Performing Search and replace for the IDX domains again....");
+
+            searchAndReplace.searchAndReplaceSecondTime(searchAndReplace, searchReplaceModel);
 
 
             //driver.Quit();
         }
 
-        private static void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain)
+        private static void SearchAndReplaceIDXDomains(string clientDomain, string clientThemeId, WPSearchAndReplace searchReplaceModel, SearchAndReplace searchAndReplace)
         {
-            // Currently using the First Impression information to load information in the search and replace
-            // I will have refactor to allow the theme information to be optional
+            // This will carry out the search and replace for the IDX Search Domains
+            string selectedTheme = verifyIDXDomain(clientThemeId, searchReplaceModel);
+
+            searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, selectedTheme);
+            searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.selectAllTables(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+        }
+
+        private static void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain, string clientThemeId)
+        {
 
             //Call selectThemeMethod
-            searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, searchReplaceModel.firstImpressionDomain);
+            string selectedTheme = verifyThemeId(clientThemeId, searchReplaceModel);
+
+            searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, selectedTheme);
             searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
             searchAndReplace.checkCaseSensitive(searchReplaceModel);
             // Commented out for now to not break my demo account
@@ -93,14 +120,57 @@ namespace AutoHomeFulfillment
 
         }
 
-        //Create selectTheme method
-        private static void selectTheme(int themeId)
+
+        private static string selectTheme(int themeId, WPSearchAndReplace searchReplaceModel)
         {
-            //TODO: Implement switch statement for themes
+            
+            switch (themeId)
+            {
+                case 1:
+                    return searchReplaceModel.firstImpressionDomain;
+                case 2:
+                    return searchReplaceModel.statelyDomain;
+                case 3:
+                    return searchReplaceModel.curbAppealDomain;
+                case 4:
+                    return searchReplaceModel.picturePerfectDomain;
+                case 5:
+                    return searchReplaceModel.mustSeeDomain;
+                case 6:
+                    return searchReplaceModel.primeLocationDomain;
+                case 7:
+                    return searchReplaceModel.openFloorPlanDomain;
+                default:
+                    return string.Empty;
+            }
+
+        }
+
+        private static string selectIDXDomain(int themeId, WPSearchAndReplace searchReplaceModel)
+        {
+            switch (themeId)
+            {
+                case 1:
+                    return searchReplaceModel.firstImpressionIDXDomain;
+                case 2:
+                    return searchReplaceModel.statelyIDXDomain;
+                case 3:
+                    return searchReplaceModel.curbAppealIDXDomain;
+                case 4:
+                    return searchReplaceModel.picturePerfectIDXDomain;
+                case 5:
+                    return searchReplaceModel.mustSeeIDXDomain;
+                case 6:
+                    return searchReplaceModel.primeLocationIDXDomain;
+                case 7:
+                    return searchReplaceModel.openFloorPlanIDXDomain;
+                default:
+                    return string.Empty;
+            }
         }
 
 
-        private static void verifyThemeId(string input)
+        private static string verifyThemeId(string input, WPSearchAndReplace searchReplaceModel)
         {
             int themeId;
 
@@ -108,17 +178,49 @@ namespace AutoHomeFulfillment
             {
                 int inputInt = Int32.Parse(input);
                 themeId = inputInt;
-                selectTheme(themeId);
+                return selectTheme(themeId, searchReplaceModel);
             }
             catch (Exception)
             {
 
                 Console.WriteLine($"{input} was not a valid integer. Please try again.");
+                return string.Empty;
+            }
+            
+        }        
 
+        private static string verifyIDXDomain(string input, WPSearchAndReplace searchReplaceModel)
+        {
+            int themeId;
+
+            try
+            {
+                int inputInt = Int32.Parse(input);
+                themeId = inputInt;
+                return selectIDXDomain(themeId, searchReplaceModel);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine($"{input} was not a valid integer. Please try again.");
+                return string.Empty;
             }
             
         }
 
+        private static void displayThemeIndecies()
+        {
+            string listOfThemes = "1. First Impression\n" +
+                                  "2. Stately\n" +
+                                  "3. Curb Appeal\n" +
+                                  "4. Picture Perfect\n" +
+                                  "5. Must See\n" +
+                                  "6. Prime Location\n" +
+                                  "7. Open Floor Plan\n";
+
+
+            Console.WriteLine(listOfThemes);
+        }
 
     }
 }

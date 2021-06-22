@@ -81,23 +81,6 @@ namespace AutoHomeFulfillment.Services
             searchAndReplacePage.dryRunCheckBox.Click();
         }
 
-
-        public void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain)
-        {
-            // Currently using the First Impression information to load information in the search and replace
-            // I will have refactor to allow the theme information to be optional
-
-            //Call selectThemeMethod
-            searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, searchReplaceModel.firstImpressionDomain);
-            searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
-            searchAndReplace.checkCaseSensitive(searchReplaceModel);
-            // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
-            searchAndReplace.selectAllTables(searchReplaceModel);
-            searchAndReplace.searchAndReplace(searchReplaceModel);
-
-        }
-
         public void searchAndReplaceSecondTime(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel)
         {
             // Commented out for now to not break my demo account

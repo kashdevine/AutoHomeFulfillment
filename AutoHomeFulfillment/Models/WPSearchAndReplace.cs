@@ -18,8 +18,31 @@ namespace AutoHomeFulfillment.Models
         public IWebElement runButton => _driver.FindElement(By.Id("bsr-submit"));
         public IWebElement tablesSelection => _driver.FindElement(By.Id("bsr-table-select"));
 
+
+
         public readonly string firstImpressionDomain = "idx-firstimpression.homewithidxbroker.com";
         public readonly string firstImpressionIDXDomain = "idx-firstimpression.idxbroker.com";
+
+        public readonly string statelyDomain = "idx-stately.homewithidxbroker.com";
+        public readonly string statelyIDXDomain = "idx-stately.idxbroker.com";
+
+        public readonly string curbAppealDomain = "idx-curbappeal.homewithidxbroker.com";
+        public readonly string curbAppealIDXDomain = "idx-curbappeal.idxbroker.com";
+
+        public readonly string picturePerfectDomain = "idx-pictureperfect.homewithidxbroker.com";
+        public readonly string picturePerfectIDXDomain = "idx-pictureperfect.idxbroker.com";
+
+        public readonly string mustSeeDomain = "idx-mustsee.homewithidxbroker.com";
+        public readonly string mustSeeIDXDomain = "idx-mustsee.idxbroker.com";
+
+        public readonly string primeLocationDomain = "idx-primelocation.homewithidxbroker.com";
+        public readonly string primeLocationIDXDomain = "idx-primelocation.idxbroker.com";
+
+        public readonly string openFloorPlanDomain = "idx-openfloorplan.homewithidxbroker.com";
+        public readonly string openFloorPlanIDXDomain = "idx-openfloorplan.idxbroker.com";
+
+
+
 
         public WPSearchAndReplace(IWebDriver driver)
         {
