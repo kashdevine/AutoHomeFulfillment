@@ -88,5 +88,121 @@ namespace AutoHomeFulfillment.Services
             searchAndReplace.searchAndReplace(searchReplaceModel);
 
         }
+        public void SearchAndReplaceIDXDomains(string clientDomain, string clientThemeId, WPSearchAndReplace searchReplaceModel, SearchAndReplace searchAndReplace)
+        {
+            // This will carry out the search and replace for the IDX Search Domains
+            string selectedTheme = verifyIDXDomain(clientThemeId, searchReplaceModel);
+
+            searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, selectedTheme);
+            searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.selectAllTables(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+        }
+
+        public void searchAndReplaceDomains(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel, string clientDomain, string clientThemeId)
+        {
+
+            //Call selectThemeMethod
+            string selectedTheme = verifyThemeId(clientThemeId, searchReplaceModel);
+
+            searchAndReplace.fillSearchFieldWithDomain(searchReplaceModel, selectedTheme);
+            searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
+            searchAndReplace.checkCaseSensitive(searchReplaceModel);
+            // Commented out for now to not break my demo account
+            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.selectAllTables(searchReplaceModel);
+            searchAndReplace.searchAndReplace(searchReplaceModel);
+
+        }
+
+
+        public string selectTheme(int themeId, WPSearchAndReplace searchReplaceModel)
+        {
+
+            switch (themeId)
+            {
+                case 1:
+                    return searchReplaceModel.firstImpressionDomain;
+                case 2:
+                    return searchReplaceModel.statelyDomain;
+                case 3:
+                    return searchReplaceModel.curbAppealDomain;
+                case 4:
+                    return searchReplaceModel.picturePerfectDomain;
+                case 5:
+                    return searchReplaceModel.mustSeeDomain;
+                case 6:
+                    return searchReplaceModel.primeLocationDomain;
+                case 7:
+                    return searchReplaceModel.openFloorPlanDomain;
+                default:
+                    return string.Empty;
+            }
+
+        }
+
+        public string selectIDXDomain(int themeId, WPSearchAndReplace searchReplaceModel)
+        {
+            switch (themeId)
+            {
+                case 1:
+                    return searchReplaceModel.firstImpressionIDXDomain;
+                case 2:
+                    return searchReplaceModel.statelyIDXDomain;
+                case 3:
+                    return searchReplaceModel.curbAppealIDXDomain;
+                case 4:
+                    return searchReplaceModel.picturePerfectIDXDomain;
+                case 5:
+                    return searchReplaceModel.mustSeeIDXDomain;
+                case 6:
+                    return searchReplaceModel.primeLocationIDXDomain;
+                case 7:
+                    return searchReplaceModel.openFloorPlanIDXDomain;
+                default:
+                    return string.Empty;
+            }
+        }
+
+
+        public string verifyThemeId(string input, WPSearchAndReplace searchReplaceModel)
+        {
+            int themeId;
+
+            try
+            {
+                int inputInt = Int32.Parse(input);
+                themeId = inputInt;
+                return selectTheme(themeId, searchReplaceModel);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine($"{input} was not a valid integer. Please try again.");
+                return string.Empty;
+            }
+
+        }
+
+        public string verifyIDXDomain(string input, WPSearchAndReplace searchReplaceModel)
+        {
+            int themeId;
+
+            try
+            {
+                int inputInt = Int32.Parse(input);
+                themeId = inputInt;
+                return selectIDXDomain(themeId, searchReplaceModel);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine($"{input} was not a valid integer. Please try again.");
+                return string.Empty;
+            }
+
+        }
     }
 }
