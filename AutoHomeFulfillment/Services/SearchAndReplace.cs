@@ -84,7 +84,7 @@ namespace AutoHomeFulfillment.Services
         public void searchAndReplaceSecondTime(SearchAndReplace searchAndReplace, WPSearchAndReplace searchReplaceModel)
         {
             // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.uncheckDryRun(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
 
         }
@@ -96,7 +96,7 @@ namespace AutoHomeFulfillment.Services
             searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, selectedTheme);
             searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
             // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.uncheckDryRun(searchReplaceModel);
             searchAndReplace.selectAllTables(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
         }
@@ -111,7 +111,7 @@ namespace AutoHomeFulfillment.Services
             searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
             searchAndReplace.checkCaseSensitive(searchReplaceModel);
             // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.uncheckDryRun(searchReplaceModel);
             searchAndReplace.selectAllTables(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
 
