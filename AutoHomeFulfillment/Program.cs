@@ -99,7 +99,7 @@ namespace AutoHomeFulfillment
             searchAndReplace.fillSearchFieldWithIDXDomain(searchReplaceModel, selectedTheme);
             searchAndReplace.fillReplaceFieldWithClientIDXDomain(searchReplaceModel, clientDomain);
             // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.uncheckDryRun(searchReplaceModel);
             searchAndReplace.selectAllTables(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
         }
@@ -114,7 +114,7 @@ namespace AutoHomeFulfillment
             searchAndReplace.fillReplaceFieldWithDomain(searchReplaceModel, clientDomain);
             searchAndReplace.checkCaseSensitive(searchReplaceModel);
             // Commented out for now to not break my demo account
-            //searchAndReplace.uncheckDryRun(searchReplaceModel);
+            searchAndReplace.uncheckDryRun(searchReplaceModel);
             searchAndReplace.selectAllTables(searchReplaceModel);
             searchAndReplace.searchAndReplace(searchReplaceModel);
 
